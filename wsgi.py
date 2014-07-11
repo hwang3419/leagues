@@ -1,9 +1,8 @@
 #!/usr/bin/python
 import os, sys
 
-sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'wsgi',
-    'm10'))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'm10.m10.settings'
+sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'm10'))
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 virtenv = os.environ['APPDIR'] + '/virtenv/'
 os.environ['PYTHON_EGG_CACHE'] = os.path.join(virtenv, 'lib/python2.6/site-packages')
