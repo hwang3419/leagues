@@ -8,14 +8,21 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+#MySQL 5.5 database added.  Please make note of these credentials:
+
+#       Root User: adminsGdywJN
+#   Root Password: L8X41ByzqFzi
+#   Database Name: m10
+
+#Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'test',                      # Or path to database file if using sqlite3.
+        'NAME': 'm10',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'adminsGdywJN',
+        'PASSWORD': 'L8X41ByzqFzi',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '3306',                      # Set to empty string for default.
     }
@@ -126,7 +133,11 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-
+try:
+    from local_settings import DATABASES
+    print DATABASES
+except:
+    pass
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
