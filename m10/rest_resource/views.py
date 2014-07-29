@@ -122,6 +122,6 @@ def import_csv(CSVFILE, MODEL):
             B365D = float(bulk.get('B365D',None)),
             B365A = float(bulk.get('B365A',None)),
             )'''
-        print fields
+        #print fields
         new_row = MODEL(**fields)
         new_row.save()
