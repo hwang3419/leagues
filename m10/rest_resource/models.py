@@ -14,8 +14,51 @@ class Test(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        # For automatic slug generation.
-        #if not self.slug:
-            #self.slug = slugify(self.title)[:50]
-
         return super(Test, self).save(*args, **kwargs)
+
+class base(models.Model):
+    class Meta:
+        abstract = True
+    Div = models.CharField(max_length = 5)
+    Date = models.DateField()
+    HomeTeam = models.CharField(max_length = 30)
+    AwayTeam = models.CharField(max_length = 30)
+    FTHG = models.IntegerField()
+    FTAG = models.IntegerField()
+    FTR = models.CharField(max_length = 1)
+    HTHG = models.IntegerField(null = True)
+    HTAG = models.IntegerField(null = True)
+    HTR = models.CharField(max_length = 1, null = True)
+    Referee = models.CharField(max_length = 30, null = True)
+    HS = models.IntegerField(null = True)
+    AS = models.IntegerField(null = True)
+    HST = models.IntegerField(null = True)
+    AST = models.IntegerField(null = True)
+    HF = models.IntegerField(null = True)
+    AF = models.IntegerField(null = True)
+    HC = models.IntegerField(null = True)
+    AC = models.IntegerField(null = True)
+    HY = models.IntegerField(null = True)
+    AY = models.IntegerField(null = True)
+    HR = models.IntegerField(null = True)
+    AR = models.IntegerField(null = True)
+    B365H = models.FloatField(null = True)
+    B365D = models.FloatField(null = True)
+    B365A = models.FloatField(null = True)
+    
+    def __unicode__(self):
+        return 'Raw data from%s'%self.Div
+
+class SP1(base):
+    pass
+
+
+class E0(base):
+    pass
+
+
+class D1(base):
+    pass
+
+class I1(base):
+    pass

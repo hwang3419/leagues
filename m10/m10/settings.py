@@ -1,8 +1,12 @@
 # Django settings for m10 project.
 import os
+from os.path import join, abspath, dirname
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
+APP_DIR = dirname( abspath(__file__) )
+PROJECT_DIR = dirname( APP_DIR )
+ROOT_DIR = dirname( PROJECT_DIR )
+CSV_DIR = join(PROJECT_DIR,'csv')
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -30,7 +34,7 @@ if os.environ.get('OPENSHIFT_MYSQL_DB_HOST',None):
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -115,6 +119,7 @@ ROOT_URLCONF = 'm10.urls'
 WSGI_APPLICATION = 'm10.wsgi.application'
 
 TEMPLATE_DIRS = (
+    join(APP_DIR,'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -135,7 +140,6 @@ INSTALLED_APPS = (
 )
 try:
     from local_settings import DATABASES
-    print DATABASES
 except:
     pass
 # A sample logging configuration. The only tangible logging
