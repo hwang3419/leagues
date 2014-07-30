@@ -15,14 +15,16 @@ MODELS = dict(
     I1 = I1,
     )
 
-def main(request):
+def main():
     csv_pattern = join(settings.CSV_DIR,'*/*.csv')
     csv_files = glob(csv_pattern)
     for f in csv_files:
+        print f
         MODEL = f.split('/')[-2]
         if MODELS.has_key(MODEL):
             import_csv(f,MODELS[MODEL])
-    return render(request,'main.html')
+    print "down"
+    #return render(request,'main.html')
 
 def import_csv(CSVFILE, MODEL):
     rownum = 0

@@ -15,7 +15,7 @@ v1_api.register(TestResource())
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'm10.views.home', name='home'),
-    url(r'^import/', 'rest_resource.views.main'),
+    #url(r'^import/', 'rest_resource.views.main'),
     #(r'^api/', include(test_resource.urls)),
     (r'^api/', include(v1_api.urls)),
     # Uncomment the admin/doc line below to enable admin documentation:
