@@ -1,8 +1,7 @@
 # Django settings for m10 project.
 import os
 from os.path import join, abspath, dirname
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+
 APP_DIR = dirname( abspath(__file__) )
 PROJECT_DIR = dirname( APP_DIR )
 ROOT_DIR = dirname( PROJECT_DIR )
@@ -10,6 +9,8 @@ CSV_DIR = join(PROJECT_DIR,'csv')
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
+
+TASTYPIE_DEFAULT_FORMATS = ['json']
 
 MANAGERS = ADMINS
 #MySQL 5.5 database added.  Please make note of these credentials:
@@ -138,6 +139,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+DEBUG = True
+
 try:
     from local_settings import DATABASES
 except:
@@ -170,3 +173,4 @@ LOGGING = {
         },
     }
 }
+TEMPLATE_DEBUG = DEBUG

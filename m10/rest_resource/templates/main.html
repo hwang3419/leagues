@@ -2,14 +2,38 @@
 <meta charset="utf-8">
 <html>
 <head>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+<!--script src="//code.jquery.com/jquery-1.11.0.min.js"></script-->
 </head>
-<body>
+<body ng-app="testapp">
 
-<!--div id="chart" class='bar'></div-->
+  <div ng-controller="TestController" >
+    <button ng-click="TestData.doClick(item, $event)">Send AJAX Request</button>
+    <br/>
+    Data from server: {{TestData.fromServer}}
+  </div>
 
-<div>testing</div>
+  <script>
+    angular.module("testapp", [])
+        .controller("TestController", function($scope, $http) {
+            $scope.TestData = {};
+            $scope.TestData.doClick = function(item, event) {
+
+                var responsePromise = $http.get("/api/v1/sp1/?limit=1&format=json");
+
+                responsePromise.success(function(data, status, headers, config) {
+                    $scope.TestData.fromServer = data.objects[0]['HomeTeam'];
+                    $scope.TestData.fromServer = 'test'
+                    console.log(data, $scope.TestData.fromServer)
+                });
+                responsePromise.error(function(data, status, headers, config) {
+                    alert("AJAX failed!");
+                });
+            }
+
+
+        } );
+  </script>
 
 </body>
 </html>
