@@ -62,3 +62,23 @@ class D1(base):
 
 class I1(base):
     pass
+
+class SP1teams(models.Model):
+    name = models.CharField(max_length = 30)
+    modified = models.DateTimeField(auto_now=True)
+    games = models.IntegerField()
+
+class E0teams(models.Model):
+    name = models.CharField(max_length = 30)
+    modified = models.DateTimeField(auto_now=True)
+    games = models.IntegerField()
+
+class I1teams(models.Model):
+    name = models.CharField(max_length = 30)
+    modified = models.DateTimeField(auto_now=True)
+    games = models.IntegerField()
+
+class D1teams(models.Model):
+    name = models.CharField(max_length = 30)
+    modified = models.DateTimeField(auto_now=True)
+    games = models.IntegerField()

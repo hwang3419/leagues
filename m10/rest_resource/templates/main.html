@@ -2,43 +2,18 @@
 <meta charset="utf-8">
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+<link href="http://cdn.sencha.io/touch/sencha-touch-2.3.0/resources/css/sencha-touch.css" rel="stylesheet" />
+<script src="http://cdn.sencha.io/touch/sencha-touch-2.3.0/sencha-touch-all.js"></script>
+<link href="/static/css/icon.css" rel="stylesheet" />
+<script src="/static/js/forms.js"></script>
+<script src="/static/js/tabs.js"></script>
+<!--link href="/static/css/sencha-touch.css" rel="stylesheet"/>
+<script src="/static/js/sencha-touch-all.js"></script-->
+<!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script-->
 <!--script src="//code.jquery.com/jquery-1.11.0.min.js"></script-->
 </head>
-{% verbatim %}
-<body ng-app="testapp">
-    <table>
-      <tr><th>row number</th></tr>
-      <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i+1}}</td></tr>
-    </table>
-  <div ng-controller="TestController" >
-    <button ng-click="TestData.doClick(item, $event)">Send AJAX Request</button>
-    <br/>
-    Data from server: {{TestData.fromServer}}
-  </div>
-
-  <script>
-    angular.module("testapp", [])
-        .controller("TestController", function($scope, $http) {
-            $scope.TestData = {};
-            $scope.TestData.doClick = function(item, event) {
-
-                var responsePromise = $http.get("/api/v1/sp1/?limit=1&format=json");
-
-                responsePromise.success(function(data, status, headers, config) {
-                    $scope.TestData.fromServer = data.objects[0]['HomeTeam'];
-                    $scope.TestData.fromServer = 'test'
-                    console.log(data, $scope.TestData.fromServer)
-                });
-                responsePromise.error(function(data, status, headers, config) {
-                    alert("AJAX failed!");
-                });
-            }
-
-
-        } );
-  </script>
-
+<body>
+    <script type="text/javascript">
+    </script>
 </body>
-{% endverbatim %}
 </html>
