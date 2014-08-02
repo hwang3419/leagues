@@ -1,2 +1,4 @@
-use test;
-SELECT distinct Hometeam,count(Hometeam) as tcount FROM rest_resource_e0 group by hometeam order by tcount Desc;
+insert into rest_resource_e0teams (name, games) SELECT distinct Hometeam as name ,count(Hometeam) as count FROM rest_resource_e0 group by hometeam order by count Desc;
+insert into rest_resource_sp1teams (name, games) SELECT distinct Hometeam as name ,count(Hometeam) as count FROM rest_resource_sp1 group by hometeam order by count Desc;
+insert into rest_resource_d1teams (name, games) SELECT distinct Hometeam as name ,count(Hometeam) as count FROM rest_resource_d1 group by hometeam order by count Desc;
+insert into rest_resource_i1teams (name, games) SELECT distinct Hometeam as name ,count(Hometeam) as count FROM rest_resource_i1 group by hometeam order by count Desc;

@@ -23,7 +23,7 @@ Ext.application({
                     title: 'Comments',
                     iconCls: 'compose',
                     cls: 'star',
-                    items:[radio],
+                    items:[team_form],
                 },
 
                 // This is the contact page, which features a form and a button. The button submits the form

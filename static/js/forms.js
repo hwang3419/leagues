@@ -1,6 +1,5 @@
 var check_load = function (thisbutton, e, eOpts){
-    console.log(thisbutton,thisbutton.originalValue)
-
+    env.teams = teams[thisbutton.originalValue]
 }
 
 var radio = {
@@ -63,11 +62,35 @@ var radio = {
             
             }
 
-query_form = [
+var team_form = Ext.create('Ext.form.Panel', {
+            height:50,
+            width:100,
+            items: [
+                {
+                    xtype: 'fieldset',
+                    title: 'Select',
+                    items: [
+                        {
+                            xtype: 'selectfield',
+                            label: 'Choose one',
+                            options: [
+                                {text: 'First Option',  value: 'first'},
+                                {text: 'Second Option', value: 'second'},
+                                {text: 'Third Option',  value: 'third'}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        });
+
+var query_form = [
         radio,
         {
-            xtype: 'textfield',
+            xtype: 'selectfield',
             name : 'name',
-            label: 'Name'
+            label: 'Name',
+            options: teams['e0'] 
         },
     ]
+
