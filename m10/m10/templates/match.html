@@ -19,7 +19,13 @@
         },
 
     itemTpl: '{FTHG}:{FTAG}  @  {Date}  ',
-    items : [top_bar],
+    items : [
+    top_bar, {
+        xtype:'button',
+        
+    }
+
+    ],
     listeners:{
         select:function(thislist, record, eOpts){
             var query_url = window.location.search
