@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<body>
+    <script>
+    Ext.setup({
+    onReady: function () {
+        
+    var match_list = Ext.create('Ext.List', {
+    fullscreen:true,
+    store: {
+        fields: ['Date'],
+        data: [
+
+            ]
+        },
+
+    itemTpl: '{Date}'
+    });
+    console.log(window.location.search)
+    var query_url = '/api/v1/'+env.league+'/'+window.location.search
+    console.log(query_url)
+    Ext.Ajax.setMethod('get')
+    Ext.Ajax.setDisableCaching(false)
+    Ext.Ajax.request({
+        url: query_url,
+        params:{
+            limit:100,
+            order_by:'-Date',
+        },
+        success: function(response){
+            var responseObj = Ext.decode(response.responseText);
+            console.log(responseObj)
+            newStore = {
+            fields: ['Date'],
+            data: responseObj['objects']
+            },
+            match_list.setStore(newStore)
+        }
+    });
+    }
+});
+    </script>
+</body>
+{% endblock %}

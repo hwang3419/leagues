@@ -1,5 +1,9 @@
-Ext.application({
+Ext.onReady(function(){
+    Ext.application({
     name: 'Sencha',
+    requires : [
+        'Ext.TitleBar'
+    ],
 
     launch: function() {
         //The whole app UI lives in this tab panel
@@ -11,10 +15,9 @@ Ext.application({
             items: [
                 // This is the home page, just some simple html
                 {
-                    title: 'Home',
                     iconCls: 'home',
                     cls: 'home',
-                    xtype: 'container',
+                    xtype: 'fieldset',
                     items : query_form,
                 },
 
@@ -23,7 +26,7 @@ Ext.application({
                     title: 'Comments',
                     iconCls: 'compose',
                     cls: 'star',
-                    items:[team_form],
+                    items:[],
                 },
 
                 // This is the contact page, which features a form and a button. The button submits the form
@@ -31,8 +34,11 @@ Ext.application({
                     title: 'About',
                     iconCls: 'info',
                     cls: 'star',
+                    html:'<h3>Developing...</h3></br>Contact: hwang.iit@gmail.com'
                 }
             ]
         });
     }
 });
+})
+

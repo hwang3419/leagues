@@ -1,28 +1,24 @@
 .england{
     background-image:url('/static/img/england.jpg');
-    width:50%; 
-    height:50%; 
+    background-size:   contain;  
     background-repeat: no-repeat;
 
 }
 .germany{
     background-image:url('/static/img/germany.jpg');
-    width:50%; 
-    height:50%; 
+    background-size:   contain; 
     background-repeat: no-repeat;
 
 }
 .italy{
     background-image:url('/static/img/italy.jpg');
-    width:50%; 
-    height:50%; 
+    background-size:   contain;
     background-repeat: no-repeat;
 
 }
 .spain{
     background-image:url('/static/img/spain.jpg');
-    width:50%; 
-    height:50%; 
+    background-size:   contain;
     background-repeat: no-repeat;
 
 }

@@ -1,20 +1,38 @@
 var check_load = function (thisbutton, e, eOpts){
     env.teams = teams[thisbutton.originalValue]
+    env.league = thisbutton.originalValue
+    Ext.getCmp('homeselectfield').setOptions(env.teams)
+    Ext.getCmp('awayselectfield').setOptions(env.teams)
+    Ext.getCmp('awayselectfield').setValue(env.teams[2].text)
+}
+
+var submit_form = function(thisbutton, e, eOpts){
+    var form_value = {}
+    form_value['HomeTeam'] = {value: Ext.getCmp('homeselectfield').getValue()}
+    form_value['AwayTeam'] = {value: Ext.getCmp('awayselectfield').getValue()}
+    var query_string=''
+    for (var key in form_value){
+        query_string = query_string+"&"+key+"="+form_value[key]['value']
+    }
+    window.location = '/match/?'+query_string
 }
 
 var radio = {
                 xtype: 'panel',
                 layout: {
                     type: 'hbox',
-                    align: 'middle'
+                    align: 'middle',
                 },
                 items: [
                     {
                         xtype: 'radiofield',
-                        label: 'ENG',
+                        label: ' ',
                         labelCls: 'england',
+                        padding:'0,0,0,0',
+                        margin:'0,0,0,0',
                         value:'e0',
-                        labelAlign:'top',
+                        width:5,
+                        labelAlign:'right',//'top',
                         flex: 1,
                         name:'league',
                         checked: true,
@@ -24,9 +42,9 @@ var radio = {
                     },
                     {
                         xtype: 'radiofield',
-                        label: 'ITA',
+                        label: ' ',
                         labelCls: 'italy',
-                        labelAlign:'top',
+                        labelAlign:'right',//'top',
                         flex: 1,
                         name:'league',
                         value:'i1',
@@ -36,9 +54,9 @@ var radio = {
                     },
                     {
                         xtype: 'radiofield',
-                        label: 'GER',
+                        label: ' ',
                         labelCls: 'germany',
-                        labelAlign:'top',
+                        labelAlign:'right',//'top',
                         flex: 1,
                         name:'league',
                         value:'d1',
@@ -48,9 +66,9 @@ var radio = {
                     },
                     {
                         xtype: 'radiofield',
-                        label: 'ESP',
+                        label: ' ',
                         labelCls: 'spain',
-                        labelAlign:'top',
+                        labelAlign:'right',//'top',
                         flex: 1,
                         name:'league',
                         value:'sp1',
@@ -61,36 +79,27 @@ var radio = {
                 ],
             
             }
-
-var team_form = Ext.create('Ext.form.Panel', {
-            height:50,
-            width:100,
-            items: [
-                {
-                    xtype: 'fieldset',
-                    title: 'Select',
-                    items: [
-                        {
-                            xtype: 'selectfield',
-                            label: 'Choose one',
-                            options: [
-                                {text: 'First Option',  value: 'first'},
-                                {text: 'Second Option', value: 'second'},
-                                {text: 'Third Option',  value: 'third'}
-                            ]
-                        }
-                    ]
-                }
-            ]
-        });
-
 var query_form = [
         radio,
         {
             xtype: 'selectfield',
-            name : 'name',
-            label: 'Name',
-            options: teams['e0'] 
-        },
+            label: 'Home',
+            id : 'homeselectfield',
+            valueField:'text',
+            options:teams['e0']
+        }, {
+        xtype : 'selectfield',
+        label : 'Away',
+        id : 'awayselectfield',
+        valueField:'text',
+        value:teams['e0'][2].text,
+        options:teams['e0'],
+        }, {
+            xtype: 'button',
+            text: 'Submit',
+            listeners:{
+                tap: submit_form
+            }
+        }
     ]
 
