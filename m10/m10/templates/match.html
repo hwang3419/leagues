@@ -6,6 +6,12 @@
     Ext.setup({
     onReady: function () {
     var league = window.location.pathname.split("/")[2]
+    var top_bar = Ext.create('Ext.Toolbar',{
+        docked:'top',
+        title: 'Loading...'
+
+    })
+
     var match_list = Ext.create('Ext.List', {
     fullscreen:true,
     store: {
@@ -13,6 +19,7 @@
         },
 
     itemTpl: '{FTHG}:{FTAG}  @  {Date}  ',
+    items : [top_bar],
     listeners:{
         select:function(thislist, record, eOpts){
             var query_url = window.location.search
@@ -38,6 +45,7 @@
             data: responseObj['objects']
             },
             match_list.setStore(newStore)
+            top_bar.setTitle('Recent games')
         }
     });
     }
