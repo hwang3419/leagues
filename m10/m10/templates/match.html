@@ -5,19 +5,23 @@
     <script>
     Ext.setup({
     onReady: function () {
-        
+    var league = window.location.pathname.split("/")[2]
     var match_list = Ext.create('Ext.List', {
     fullscreen:true,
     store: {
-        fields: ['Date'],
-        data: [
-
-            ]
+        fields: ['Date','FTHG','FTAG'],
         },
 
-    itemTpl: '{Date}'
+    itemTpl: '{FTHG}:{FTAG}  @  {Date}  ',
+    listeners:{
+        select:function(thislist, record, eOpts){
+            var query_url = window.location.search
+            var new_url = query_url+'&Date='+record.data['Date']
+            window.location = '/summary/'+league+'/'+new_url
+        }
+    }
     });
-    var league = window.location.pathname.split("/")[2]
+    
     var query_url = '/api/v1/'+league+'/'+window.location.search
     Ext.Ajax.setMethod('get')
     Ext.Ajax.setDisableCaching(false)
@@ -29,9 +33,8 @@
         },
         success: function(response){
             var responseObj = Ext.decode(response.responseText);
-            console.log(responseObj)
             newStore = {
-            fields: ['Date'],
+            fields: ['Date','FTHG','FTAG'],
             data: responseObj['objects']
             },
             match_list.setStore(newStore)

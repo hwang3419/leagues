@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <script>
+    Ext.setup({
+    onReady: function () {
+    var league = window.location.pathname.split("/")[2]
+    var query_url = '/api/v1/'+league+'/'+window.location.search
+    Ext.Ajax.setMethod('get')
+    Ext.Ajax.setDisableCaching(false)
+    Ext.Ajax.request({
+        url: query_url,
+        params:{
+            limit:100,
+            order_by:'-Date',
+        },
+        success: function(response){
+            var responseObj = Ext.decode(response.responseText);
+            console.log(responseObj)
+        }
+    });
+    }
+});
+    </script>
+</body>
+{% endblock %}
