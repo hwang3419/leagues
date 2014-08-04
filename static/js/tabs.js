@@ -1,5 +1,4 @@
-Ext.onReady(function(){
-    Ext.application({
+Ext.application({
     name: 'Sencha',
     requires : [
         'Ext.TitleBar'
@@ -11,10 +10,10 @@ Ext.onReady(function(){
             xtype: 'tabpanel',
             fullscreen: true,
             tabBarPosition: 'bottom',
-
             items: [
                 // This is the home page, just some simple html
                 {
+                    name: 'home',
                     iconCls: 'home',
                     cls: 'home',
                     xtype: 'fieldset',
@@ -40,5 +39,4 @@ Ext.onReady(function(){
         });
     }
 });
-})
 
