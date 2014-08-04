@@ -6,3 +6,6 @@ def match(request):
 
 def summary(request):
     return render_to_response('summary.html', context_instance = RequestContext(request))
+
+def comment(request):
+    return render_to_response('comment.html', context_instance = RequestContext(request))

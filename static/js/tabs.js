@@ -24,8 +24,16 @@ Ext.application({
                 {
                     title: 'Comments',
                     iconCls: 'compose',
+                    text:'click to comment',
                     cls: 'star',
-                    items:[],
+                    xtype:'button',
+                    items:[{
+                        xtype:'panel',
+                        height:300,  
+                    }],
+                    listeners:{
+                            tap:function(){window.location='/comment'}
+                        }
                 },
 
                 // This is the contact page, which features a form and a button. The button submits the form

@@ -7,6 +7,12 @@
     onReady: function () {
     var league = window.location.pathname.split("/")[2]
     var query_url = '/api/v1/'+league+'/'+window.location.search
+    var top_bar = Ext.create('Ext.Toolbar',{
+        docked:'top',
+        title:'Loading...',
+        items:[]
+
+    })
     Ext.Ajax.setMethod('get')
     Ext.Ajax.setDisableCaching(false)
     Ext.Ajax.request({

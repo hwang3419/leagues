@@ -97,6 +97,7 @@ var query_form = [
         }, {
             xtype: 'button',
             text: 'Submit',
+            width:200,
             listeners:{
                 tap: submit_form
             }

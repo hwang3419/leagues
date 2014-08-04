@@ -8,23 +8,21 @@
     var league = window.location.pathname.split("/")[2]
     var top_bar = Ext.create('Ext.Toolbar',{
         docked:'top',
-        title: 'Loading...'
+        title:'Loading...',
+        items:[]
 
     })
 
     var match_list = Ext.create('Ext.List', {
     fullscreen:true,
+    emptyText: 'Loading...',
     store: {
         fields: ['Date','FTHG','FTAG'],
         },
 
     itemTpl: '{FTHG}:{FTAG}  @  {Date}  ',
     items : [
-    top_bar, {
-        xtype:'button',
-        
-    }
-
+    top_bar, 
     ],
     listeners:{
         select:function(thislist, record, eOpts){
@@ -52,7 +50,20 @@
             },
             match_list.setStore(newStore)
             top_bar.setTitle('Recent games')
-        }
+            top_bar.add({
+                    xtype:'button',
+                    text:'Back',
+                    docked:'top',
+                    width:100,
+                    listeners:{
+                            tap:function(){window.location='/'}
+                        }
+                })
+        },
+        failure: function(response) {
+        top_bar.setTitle('Failed, Please Reload')
+    }
+
     });
     }
 });
