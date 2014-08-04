@@ -14,7 +14,7 @@ var submit_form = function(thisbutton, e, eOpts){
     for (var key in form_value){
         query_string = query_string+"&"+key+"="+form_value[key]['value']
     }
-    window.location = '/match/?'+query_string
+    window.location = '/match/'+env.league+'/?'+query_string
 }
 
 var radio = {

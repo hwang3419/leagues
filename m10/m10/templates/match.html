@@ -17,9 +17,8 @@
 
     itemTpl: '{Date}'
     });
-    console.log(window.location.search)
-    var query_url = '/api/v1/'+env.league+'/'+window.location.search
-    console.log(query_url)
+    var league = window.location.pathname.split("/")[2]
+    var query_url = '/api/v1/'+league+'/'+window.location.search
     Ext.Ajax.setMethod('get')
     Ext.Ajax.setDisableCaching(false)
     Ext.Ajax.request({
