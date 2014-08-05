@@ -96,7 +96,8 @@ var query_form = [
         options:teams['e0'],
         }, {
             xtype: 'button',
-            text: 'Submit',
+            text: 'GO',
+            centered: true,
             width:200,
             listeners:{
                 tap: submit_form
