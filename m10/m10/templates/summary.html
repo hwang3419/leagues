@@ -3,6 +3,13 @@
 {% block content %}
 <head>
 <script src="/static/js/Chart.min.js"></script>
+<style>
+    .charts{
+        margin: auto;
+        width: 70%;
+       
+    }
+</style>
 </head>
 <body>
     <script>
@@ -16,7 +23,8 @@
         items:[]
 
     });
-    Ext.create('Ext.Carousel', {
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
+    Ext.create('Ext.Panel', {
                 fullscreen: true,
                 
                 defaults: {
@@ -27,7 +35,7 @@
                     top_bar,
                     {
                         html : '<canvas id="myChart" width="400" height="400"></canvas>',
-                        //style: 'background-color: #5E99CC'
+                        //style: 'height:400;height="400";'
                     },
                     {
                         html : 'Item 2',
