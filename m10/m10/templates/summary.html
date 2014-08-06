@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+{%verbatim%}
 <head>
 <script src="/static/js/Chart.min.js"></script>
 <style>
@@ -13,6 +14,26 @@
 </head>
 <body>
     <script>
+    function legend(parent, data) {
+        parent.className = 'legend';
+        var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
+
+        // remove possible children of the parent
+        while(parent.hasChildNodes()) {
+            parent.removeChild(parent.lastChild);
+        }
+
+        datas.forEach(function(d) {
+            var title = document.createElement('span');
+            title.className = 'title';
+            title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+            title.style.borderStyle = 'solid';
+            parent.appendChild(title);
+
+            var text = document.createTextNode(d.title);
+            title.appendChild(text);
+        });
+    }
     Ext.setup({
     onReady: function () {
     var league = window.location.pathname.split("/")[2]
@@ -23,8 +44,9 @@
         items:[]
 
     });
-    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-    Ext.create('Ext.Panel', {
+    var w = Math.min(document.documentElement.clientWidth-20, window.innerWidth-20 || 800)
+    var h = Math.min(document.documentElement.clientHeight*0.8, window.innerHeight*0.8 || 600)
+    Ext.create('Ext.Carousel', {
                 fullscreen: true,
                 
                 defaults: {
@@ -34,15 +56,16 @@
                 items: [
                     top_bar,
                     {
-                        html : '<canvas id="myChart" width="400" height="400"></canvas>',
-                        //style: 'height:400;height="400";'
+                        html : '<canvas id="barChart1" width='+w+' height="'+h+'"></canvas><div id="barLegend1"></div>',
+                         //style: 'background-color: #759E60'
                     },
                     {
-                        html : 'Item 2',
+                        html : '<canvas id="barChart2" width='+w+' height="'+h+'"></canvas><div id="barLegend2"></div>',
+                        
+                    },
+                    {
+                        html : 'Item 3',
                         style: 'background-color: #759E60'
-                    },
-                    {
-                        html : 'Item 3'
                     }
                 ]
             });
@@ -57,8 +80,16 @@
         },
         success: function(response){
             var responseObj = Ext.decode(response.responseText);
-            console.log(responseObj)
+            var rd = responseObj['objects'][0]
+            var home_data = [rd['HC'],rd['HS'],rd['HST'],rd['HF'],rd['FTHG'],rd['HY'],rd['HR'],rd['HTHG']]
+            var away_data = [rd['AC'],rd['AS'],rd['AST'],rd['AF'],rd['FTAG'],rd['AY'],rd['AR'],rd['HTAG']]
+            for (i=0;i<home_data.length;i++){
+                if (home_data[i]==null){home_data[i]=0}
+                if (away_data[i]==null){away_data[i]=0}
+            }
+            var opt = {
             
+            }
             top_bar.add({
                     xtype:'button',
                     text:'Home',
@@ -68,37 +99,62 @@
                             tap:function(){window.location='/'}
                         }
                 })
-            var ctx = document.getElementById("myChart").getContext("2d");
+            var ctx = document.getElementById("barChart1").getContext("2d");
             var data = {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                labels: ["Corners", "Shots", "On Target","Fouls", ],
                 datasets: [
                     {
-                        label: "My First dataset",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [65, 59, 80, 81, 56, 55, 40]
+                        title: rd['HomeTeam'],
+                        fillColor: "rgba(220,220,220,0.5)",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "rgba(220,220,220,0.75)",
+                        highlightStroke: "rgba(220,220,220,1)",
+                        data: [rd['HC'],rd['HS'],rd['HST'],rd['HF']]
                     },
                     {
-                        label: "My Second dataset",
-                        fillColor: "rgba(151,187,205,0.2)",
-                        strokeColor: "rgba(151,187,205,1)",
-                        pointColor: "rgba(151,187,205,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(151,187,205,1)",
-                        data: [28, 48, 40, 19, 86, 27, 90]
+                        title: rd['AwayTeam'],
+                        fillColor: "rgba(151,187,205,0.5)",
+                        strokeColor: "rgba(151,187,205,0.8)",
+                        highlightFill: "rgba(151,187,205,0.75)",
+                        highlightStroke: "rgba(151,187,205,1)",
+                        data:[rd['AC'],rd['AS'],rd['AST'],rd['AF']]
                     }
                 ]
             };
-            var myLineChart = new Chart(ctx).Line(data );
+            var myBarChart = new Chart(ctx).Bar(data, opt);
+            legend(document.getElementById("barLegend1"), data);
+            ///////////////////////////////////////////////////////
+
+
+            var ctx = document.getElementById("barChart2").getContext("2d");
+            var data = {
+                labels: ["Goals", "Yellows", "Reds",'HalfTime'],
+                datasets: [
+                    {
+                        title: rd['HomeTeam'],
+                        fillColor: "rgba(220,220,220,0.5)",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "rgba(220,220,220,0.75)",
+                        highlightStroke: "rgba(220,220,220,1)",
+                        data: [rd['FTHG'],rd['HY'],rd['HR'],rd['HTHG']]
+                    },
+                    {
+                        title: rd['AwayTeam'],
+                        fillColor: "rgba(151,187,205,0.5)",
+                        strokeColor: "rgba(151,187,205,0.8)",
+                        highlightFill: "rgba(151,187,205,0.75)",
+                        highlightStroke: "rgba(151,187,205,1)",
+                        data:[rd['FTAG'],rd['AY'],rd['AR'],rd['HTAG']]
+                    }
+                ]
+            };
+            var myBarChart = new Chart(ctx).Bar(data, opt);
+            legend(document.getElementById("barLegend2"), data);
         }
     });
     }
 });
     </script>
 </body>
+{%endverbatim%}
 {% endblock %}
