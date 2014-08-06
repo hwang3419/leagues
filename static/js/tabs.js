@@ -24,12 +24,13 @@ Ext.application({
                 {
                     title: 'Comments',
                     iconCls: 'compose',
-                    text:'click to comment',
+                    html:'Under Construction, \n  click to comment',
                     cls: 'star',
                     xtype:'button',
                     items:[{
                         xtype:'panel',
                         height:300,  
+                        
                     }],
                     listeners:{
                             tap:function(){window.location='/comment'}

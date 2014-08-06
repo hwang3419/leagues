@@ -14,6 +14,43 @@
 </head>
 <body>
     <script>
+    function set_title(id,opt){
+        var title = opt['HomeTeam']+'  '+opt['FTHG']+':'+opt['FTHG']+'  '+opt['AwayTeam']+' @'+opt['Date']
+        if (opt['Referee']!=null){title = title + '\nReferee:'+opt['Referee']}
+        var div = document.getElementById(id)
+        div.innerText = title
+
+    }
+    create_piechart = function (){
+                console.log(rd)
+                var data = [
+                            {
+                                value: rd['B365H'],
+                                color:"#F7464A",
+                                highlight: "#FF5A5E",
+                                label: rd['HomeTeam']+" win",
+                                title: rd['HomeTeam']+" win",
+                            },
+                            {
+                                value: rd['B365D'],
+                                color: "#46BFBD",
+                                highlight: "#5AD3D1",
+                                label: "Draw",
+                                title: "Draw",
+                            },
+                            {
+                                value: rd['B365A'],
+                                color: "#FDB45C",
+                                highlight: "#FFC870",
+                                label: rd['AwayTeam']+" win",
+                                title: rd['AwayTeam']+" win",
+                            }
+                            ]
+                var ctx = document.getElementById("test1").getContext("2d");
+                var pieChart = new Chart(ctx).Pie(data);
+                legend(document.getElementById("pieLegend"), data)
+                set_title('pieChart_title',rd)
+                }
     function legend(parent, data) {
         parent.className = 'legend';
         var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
@@ -26,8 +63,10 @@
         datas.forEach(function(d) {
             var title = document.createElement('span');
             title.className = 'title';
-            title.style.borderColor = d.hasOwnProperty('strokeColor') ? d.strokeColor : d.color;
+            title.style.borderColor = d.hasOwnProperty('fillColor') ? d.fillColor : d.color;
+            title.style.fontWeight= 900;
             title.style.borderStyle = 'solid';
+            title.style.borderWidth = '5px';
             parent.appendChild(title);
 
             var text = document.createTextNode(d.title);
@@ -45,7 +84,8 @@
 
     });
     var w = Math.min(document.documentElement.clientWidth-20, window.innerWidth-20 || 800)
-    var h = Math.min(document.documentElement.clientHeight*0.8, window.innerHeight*0.8 || 600)
+    var h = Math.min(document.documentElement.clientHeight*0.7, window.innerHeight*0.7 || 600)
+    var r = Math.min(w,h)
     Ext.create('Ext.Carousel', {
                 fullscreen: true,
                 
@@ -56,16 +96,21 @@
                 items: [
                     top_bar,
                     {
-                        html : '<canvas id="barChart1" width='+w+' height="'+h+'"></canvas><div id="barLegend1"></div>',
-                         //style: 'background-color: #759E60'
-                    },
-                    {
-                        html : '<canvas id="barChart2" width='+w+' height="'+h+'"></canvas><div id="barLegend2"></div>',
+                        html : '<div id="barChart1_title">333</div><canvas id="barChart1" width='+w+' height="'+h+'"></canvas><div id="barLegend1"></div>',
+                        style: 'background-color: #E5E5D3',
                         
                     },
                     {
-                        html : 'Item 3',
-                        style: 'background-color: #759E60'
+                        html : '<div id="barChart2_title"></div><canvas id="barChart2" width='+w+' height="'+h+'"></canvas><div id="barLegend2"></div>',
+                        style: 'background-color: #E5E5D3',
+                        
+                    },
+                    {
+                        html : '<div id="pieChart_title"></div><div>BET365 Data</div><canvas id="test1" width='+r+' height="'+r+'"></canvas><div id="pieLegend"></div>',
+                        listeners:{
+                            painted:create_piechart
+                        },
+                        style: 'background-color: #E5E5D3'
                     }
                 ]
             });
@@ -80,7 +125,7 @@
         },
         success: function(response){
             var responseObj = Ext.decode(response.responseText);
-            var rd = responseObj['objects'][0]
+            rd = responseObj['objects'][0]
             var home_data = [rd['HC'],rd['HS'],rd['HST'],rd['HF'],rd['FTHG'],rd['HY'],rd['HR'],rd['HTHG']]
             var away_data = [rd['AC'],rd['AS'],rd['AST'],rd['AF'],rd['FTAG'],rd['AY'],rd['AR'],rd['HTAG']]
             for (i=0;i<home_data.length;i++){
@@ -89,7 +134,60 @@
             }
             var opt = {
             
-            }
+            }            
+            var ctx = document.getElementById("barChart1").getContext("2d");
+            var data = {
+                labels: ["Corners", "Shots", "On Target","Fouls", ],
+                datasets: [
+                    {
+                        title: rd['HomeTeam'],
+                        fillColor: "#01A8C6",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "#3FC0CB",
+                        highlightStroke: "rgba(220,220,220,1)",
+                        data: [rd['HC'],rd['HS'],rd['HST'],rd['HF']]
+                    },
+                    {
+                        title: rd['AwayTeam'],
+                        fillColor: "#8FBE01",
+                        strokeColor: "rgba(151,187,205,0.8)",
+                        highlightFill: "#AEE239",
+                        highlightStroke: "rgba(151,187,205,1)",
+                        data:[rd['AC'],rd['AS'],rd['AST'],rd['AF']]
+                    }
+                ]
+            };
+            var myBarChart = new Chart(ctx).Bar(data, opt);
+            legend(document.getElementById("barLegend1"), data);
+            set_title("barChart1_title",rd)
+            set_title("barChart2_title",rd)
+            ///////////////////////////////////////////////////////
+            var ctx = document.getElementById("barChart2").getContext("2d");
+            var data = {
+                labels: ["Goals", "Yellows", "Reds",'HalfTime'],
+                datasets: [
+                    {
+                        title: rd['HomeTeam'],
+                        fillColor: "#01A8C6",
+                        strokeColor: "rgba(220,220,220,0.8)",
+                        highlightFill: "#3FC0CB",
+                        highlightStroke: "rgba(220,220,220,1)",
+                        data: [rd['FTHG'],rd['HY'],rd['HR'],rd['HTHG']]
+                    },
+                    {
+                        title: rd['AwayTeam'],
+                        fillColor: "#8FBE01",
+                        strokeColor: "rgba(151,187,205,0.8)",
+                        highlightFill: "#AEE239",
+                        highlightStroke: "rgba(151,187,205,1)",
+                        data:[rd['FTAG'],rd['AY'],rd['AR'],rd['HTAG']]
+                    }
+                ]
+            };
+            var myBarChart = new Chart(ctx).Bar(data, opt);
+            legend(document.getElementById("barLegend2"), data);
+            /////////////////////////////////////////////////////////
+
             top_bar.add({
                     xtype:'button',
                     text:'Home',
@@ -99,61 +197,10 @@
                             tap:function(){window.location='/'}
                         }
                 })
-            var ctx = document.getElementById("barChart1").getContext("2d");
-            var data = {
-                labels: ["Corners", "Shots", "On Target","Fouls", ],
-                datasets: [
-                    {
-                        title: rd['HomeTeam'],
-                        fillColor: "rgba(220,220,220,0.5)",
-                        strokeColor: "rgba(220,220,220,0.8)",
-                        highlightFill: "rgba(220,220,220,0.75)",
-                        highlightStroke: "rgba(220,220,220,1)",
-                        data: [rd['HC'],rd['HS'],rd['HST'],rd['HF']]
-                    },
-                    {
-                        title: rd['AwayTeam'],
-                        fillColor: "rgba(151,187,205,0.5)",
-                        strokeColor: "rgba(151,187,205,0.8)",
-                        highlightFill: "rgba(151,187,205,0.75)",
-                        highlightStroke: "rgba(151,187,205,1)",
-                        data:[rd['AC'],rd['AS'],rd['AST'],rd['AF']]
-                    }
-                ]
-            };
-            var myBarChart = new Chart(ctx).Bar(data, opt);
-            legend(document.getElementById("barLegend1"), data);
-            ///////////////////////////////////////////////////////
-
-
-            var ctx = document.getElementById("barChart2").getContext("2d");
-            var data = {
-                labels: ["Goals", "Yellows", "Reds",'HalfTime'],
-                datasets: [
-                    {
-                        title: rd['HomeTeam'],
-                        fillColor: "rgba(220,220,220,0.5)",
-                        strokeColor: "rgba(220,220,220,0.8)",
-                        highlightFill: "rgba(220,220,220,0.75)",
-                        highlightStroke: "rgba(220,220,220,1)",
-                        data: [rd['FTHG'],rd['HY'],rd['HR'],rd['HTHG']]
-                    },
-                    {
-                        title: rd['AwayTeam'],
-                        fillColor: "rgba(151,187,205,0.5)",
-                        strokeColor: "rgba(151,187,205,0.8)",
-                        highlightFill: "rgba(151,187,205,0.75)",
-                        highlightStroke: "rgba(151,187,205,1)",
-                        data:[rd['FTAG'],rd['AY'],rd['AR'],rd['HTAG']]
-                    }
-                ]
-            };
-            var myBarChart = new Chart(ctx).Bar(data, opt);
-            legend(document.getElementById("barLegend2"), data);
-        }
-    });
-    }
-});
+                }
+            });
+            }
+        });
     </script>
 </body>
 {%endverbatim%}
