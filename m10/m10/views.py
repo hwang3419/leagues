@@ -9,3 +9,6 @@ def summary(request):
 
 def comment(request):
     return render_to_response('comment.html', context_instance = RequestContext(request))
+
+def trend(request):
+    return render_to_response('trend.html', context_instance = RequestContext(request))

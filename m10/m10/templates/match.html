@@ -9,6 +9,10 @@
     var top_bar = Ext.create('Ext.Toolbar',{
         docked:'top',
         title:'Loading...',
+        layout:{
+                type: 'hbox',
+
+            },
         items:[]
 
     })
@@ -50,15 +54,26 @@
             },
             match_list.setStore(newStore)
             top_bar.setTitle('Recent games')
-            top_bar.add({
+            top_bar.add([{
                     xtype:'button',
                     text:'Home',
-                    docked:'top',
+                    //docked:'top',
                     width:100,
                     listeners:{
                             tap:function(){window.location='/'}
                         }
-                })
+                },{
+                    xtype:'button',
+                    text:'Trend',
+                    //docked:'top',
+                    width:200,
+                    listeners:{
+                            tap:function(){
+                                var query_url = window.location.search
+                                window.location = '/trend/'+league+'/'+query_url}
+                                }
+                }])
+            top_bar.add()
         },
         failure: function(response) {
         top_bar.setTitle('Failed, Please Reload')

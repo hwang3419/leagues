@@ -5,11 +5,6 @@
 <head>
 <script src="/static/js/Chart.min.js"></script>
 <style>
-    .charts{
-        margin: auto;
-        width: 70%;
-       
-    }
 </style>
 </head>
 <body>
@@ -22,7 +17,6 @@
 
     }
     create_piechart = function (){
-                console.log(rd)
                 var data = [
                             {
                                 value: rd['B365H'],
@@ -80,6 +74,10 @@
     var top_bar = Ext.create('Ext.Toolbar',{
         docked:'top',
         title:'Loading...',
+        layout:{
+                type: 'hbox',
+
+            },
         items:[]
 
     });
@@ -187,16 +185,26 @@
             var myBarChart = new Chart(ctx).Bar(data, opt);
             legend(document.getElementById("barLegend2"), data);
             /////////////////////////////////////////////////////////
-
-            top_bar.add({
+            top_bar.setTitle('Statics')
+            top_bar.add([{
                     xtype:'button',
                     text:'Home',
-                    docked:'top',
+                    //docked:'top',
                     width:100,
                     listeners:{
                             tap:function(){window.location='/'}
                         }
-                })
+                },{
+                    xtype:'button',
+                    text:'Trend',
+                    //docked:'top',
+                    width:200,
+                    listeners:{
+                            tap:function(){
+                                var query_url = window.location.search.replace('Date=','')
+                                window.location = '/trend/'+league+'/'+query_url}
+                                }
+                }])
                 }
             });
             }
