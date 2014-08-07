@@ -9,64 +9,37 @@
 </head>
 <body>
     <script>
-    function set_title(id,opt){
-        var title = opt['HomeTeam']+'  '+opt['FTHG']+':'+opt['FTHG']+'  '+opt['AwayTeam']+' @'+opt['Date']
-        if (opt['Referee']!=null){title = title + '\nReferee:'+opt['Referee']}
-        var div = document.getElementById(id)
-        div.innerText = title
-
-    }
-    create_piechart = function (){
-                var data = [
-                            {
-                                value: rd['B365H'],
-                                color:"#F7464A",
-                                highlight: "#FF5A5E",
-                                label: rd['HomeTeam']+" win",
-                                title: rd['HomeTeam']+" win",
-                            },
-                            {
-                                value: rd['B365D'],
-                                color: "#46BFBD",
-                                highlight: "#5AD3D1",
-                                label: "Draw",
-                                title: "Draw",
-                            },
-                            {
-                                value: rd['B365A'],
-                                color: "#FDB45C",
-                                highlight: "#FFC870",
-                                label: rd['AwayTeam']+" win",
-                                title: rd['AwayTeam']+" win",
-                            }
-                            ]
-                var ctx = document.getElementById("test1").getContext("2d");
-                var pieChart = new Chart(ctx).Pie(data);
-                legend(document.getElementById("pieLegend"), data)
-                set_title('pieChart_title',rd)
-                }
-    function legend(parent, data) {
-        parent.className = 'legend';
-        var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
-
-        // remove possible children of the parent
-        while(parent.hasChildNodes()) {
-            parent.removeChild(parent.lastChild);
-        }
-
-        datas.forEach(function(d) {
-            var title = document.createElement('span');
-            title.className = 'title';
-            title.style.borderColor = d.hasOwnProperty('fillColor') ? d.fillColor : d.color;
-            title.style.fontWeight= 900;
-            title.style.borderStyle = 'solid';
-            title.style.borderWidth = '5px';
-            parent.appendChild(title);
-
-            var text = document.createTextNode(d.title);
-            title.appendChild(text);
-        });
-    }
+    
+create_piechart = function (){
+            var data = [
+                        {
+                            value: rd['B365H'],
+                            color:"#F7464A",
+                            highlight: "#FF5A5E",
+                            label: rd['HomeTeam']+" win",
+                            title: rd['HomeTeam']+" win",
+                        },
+                        {
+                            value: rd['B365D'],
+                            color: "#46BFBD",
+                            highlight: "#5AD3D1",
+                            label: "Draw",
+                            title: "Draw",
+                        },
+                        {
+                            value: rd['B365A'],
+                            color: "#FDB45C",
+                            highlight: "#FFC870",
+                            label: rd['AwayTeam']+" win",
+                            title: rd['AwayTeam']+" win",
+                        }
+                        ]
+            var ctx = document.getElementById("test1").getContext("2d");
+            var pieChart = new Chart(ctx).Pie(data);
+            legend(document.getElementById("pieLegend"), data)
+            set_title('pieChart_title',rd)
+            }
+    
     Ext.setup({
     onReady: function () {
     var league = window.location.pathname.split("/")[2]
@@ -94,7 +67,7 @@
                 items: [
                     top_bar,
                     {
-                        html : '<div id="barChart1_title">333</div><canvas id="barChart1" width='+w+' height="'+h+'"></canvas><div id="barLegend1"></div>',
+                        html : '<div id="barChart1_title"></div><canvas id="barChart1" width='+w+' height="'+h+'"></canvas><div id="barLegend1"></div>',
                         style: 'background-color: #E5E5D3',
                         
                     },
@@ -185,7 +158,7 @@
             var myBarChart = new Chart(ctx).Bar(data, opt);
             legend(document.getElementById("barLegend2"), data);
             /////////////////////////////////////////////////////////
-            top_bar.setTitle('Statics')
+            top_bar.setTitle('')
             top_bar.add([{
                     xtype:'button',
                     text:'Home',
@@ -198,13 +171,27 @@
                     xtype:'button',
                     text:'Trend',
                     //docked:'top',
-                    width:200,
+                    width:100,
                     listeners:{
                             tap:function(){
-                                var query_url = window.location.search.replace('Date=','')
-                                window.location = '/trend/'+league+'/'+query_url}
-                                }
-                }])
+                                var query_obj = Ext.urlDecode(window.location.search)
+                                delete query_obj['Date']
+                                var new_url = Ext.urlEncode(query_obj)
+                                window.location = '/trend/'+league+'/?'+new_url
+                            }
+                }},{
+                    xtype:'button',
+                    text:'Back',
+                    //docked:'top',
+                    width:100,
+                    listeners:{
+                            tap:function(){
+                                var query_obj = Ext.urlDecode(window.location.search)
+                                delete query_obj['Date']
+                                var new_url = Ext.urlEncode(query_obj)
+                                window.location = '/match/'+league+'/?'+new_url
+                            }
+                }}])
                 }
             });
             }

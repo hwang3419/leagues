@@ -30,9 +30,10 @@
     ],
     listeners:{
         select:function(thislist, record, eOpts){
-            var query_url = window.location.search
-            var new_url = query_url+'&Date='+record.data['Date']
-            window.location = '/summary/'+league+'/'+new_url
+            var query_obj = Ext.urlDecode(window.location.search)
+            query_obj['Date'] = record.data['Date']
+            var new_url = Ext.urlEncode(query_obj)
+            window.location = '/summary/'+league+'/?'+new_url
         }
     }
     });
@@ -53,7 +54,7 @@
             data: responseObj['objects']
             },
             match_list.setStore(newStore)
-            top_bar.setTitle('Recent games')
+            top_bar.setTitle('')
             top_bar.add([{
                     xtype:'button',
                     text:'Home',
@@ -69,8 +70,10 @@
                     width:200,
                     listeners:{
                             tap:function(){
-                                var query_url = window.location.search
-                                window.location = '/trend/'+league+'/'+query_url}
+                                    var query_obj = Ext.urlDecode(window.location.search)
+                                    delete query_obj['Date']
+                                    var new_url = Ext.urlEncode(query_obj)
+                                    window.location = '/trend/'+league+'/?'+new_url}
                                 }
                 }])
             top_bar.add()

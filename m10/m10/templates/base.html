@@ -12,6 +12,37 @@
 </style>
 <link href="/static/css/sencha-touch.css" rel="stylesheet"/>
 <script src="/static/js/sencha-touch-all.js"></script>
+<script type="text/javascript">
+    function set_title(id,opt){
+        var title = opt['HomeTeam']+'  '+opt['FTHG']+':'+opt['FTHG']+'  '+opt['AwayTeam']+' @'+opt['Date']
+        if (opt['Referee']!=null){title = title + '\nReferee:'+opt['Referee']}
+        var div = document.getElementById(id)
+        div.innerText = title
+
+    }
+    function legend(parent, data) {
+        parent.className = 'legend';
+        var datas = data.hasOwnProperty('datasets') ? data.datasets : data;
+
+        // remove possible children of the parent
+        while(parent.hasChildNodes()) {
+            parent.removeChild(parent.lastChild);
+        }
+
+        datas.forEach(function(d) {
+            var title = document.createElement('span');
+            title.className = 'title';
+            title.style.borderColor = d.hasOwnProperty('pointColor') ? d.pointColor : d.color;
+            title.style.fontWeight= 900;
+            title.style.borderStyle = 'solid';
+            title.style.borderWidth = '5px';
+            parent.appendChild(title);
+
+            var text = document.createTextNode(d.title);
+            title.appendChild(text);
+        });
+    }
+</script>
 </head>
 {% block content %}{% endblock %}
 </html>
