@@ -10,11 +10,22 @@ var submit_form = function(thisbutton, e, eOpts){
     var form_value = {}
     form_value['HomeTeam'] = Ext.getCmp('homeselectfield').getValue()
     form_value['AwayTeam'] = Ext.getCmp('awayselectfield').getValue()
+    if(form_value['HomeTeam'] == form_value['AwayTeam']){
+        Ext.Msg.alert('ugh','Home & Away can not be same!!');
+        return
+    }
     form_value['order_by'] = '-Date'
     query_string = Ext.urlEncode(form_value)
     window.location = '/match/'+env.league+'/?'+query_string
 }
 
+var switch_form = function(){
+    var h = Ext.getCmp('homeselectfield').getValue()
+    var a = Ext.getCmp('awayselectfield').getValue()
+    Ext.getCmp('awayselectfield').setValue(h)
+    Ext.getCmp('homeselectfield').setValue(a)
+
+}
 var radio = {
                 xtype: 'panel',
                 layout: {
@@ -92,14 +103,28 @@ var query_form = [
         valueField:'text',
         value:teams['e0'][2].text,
         options:teams['e0'],
-        }, {
+        }, {xtype: 'panel',
+            layout: {
+                    type: 'hbox',
+                    align: 'middle',
+                },
+            items:[{
+            xtype: 'button',
+            text: 'Switch Home&Away',
+            //centered: true,
+            width:100,
+            listeners:{
+                tap: switch_form,
+            }
+        },{
             xtype: 'button',
             text: 'GO',
             centered: true,
-            width:200,
+            width:100,
             listeners:{
                 tap: submit_form
             }
-        }
+        }]
+        },
     ]
 

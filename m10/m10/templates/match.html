@@ -41,12 +41,15 @@
     var query_url = '/api/v1/'+league+'/'+window.location.search
     Ext.Ajax.setMethod('get')
     Ext.Ajax.setDisableCaching(false)
+    var params = {
+            order_by:'-Date',
+        }
+    if (window.location.search.search('limit')==-1){
+        params['limit']=100
+    }
     Ext.Ajax.request({
         url: query_url,
-        params:{
-            limit:100,
-            //order_by:'-Date',
-        },
+        params:params,
         success: function(response){
             var responseObj = Ext.decode(response.responseText);
 
@@ -56,7 +59,7 @@
             data: responseObj['objects'],
             grouper: {
                    groupFn: function(record) {
-                       return record.get('HomeTeam')+" vs "+record.get('AwayTeam')+ '  ' +record.get('Date')
+                       return record.get('HomeTeam')+" vs "+record.get('AwayTeam')+ '  ' +record.get('Date').slice(0,4)
                    }
                 },
             }
