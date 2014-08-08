@@ -20,6 +20,8 @@
         var date_list = chart_data['Date']
         var home_data = chart_data[col]['Home']
         var away_data = chart_data[col]['Away']
+        document.getElementById(id).height = w
+        document.getElementById(id).width = h
         var data = {
             labels: date_list,
             datasets: [
@@ -64,8 +66,11 @@
             items:[]
 
         });
-        var w = Math.min(document.documentElement.clientWidth-20, window.innerWidth-20,document.body.clientWidth)
-        var h = Math.min(document.documentElement.clientHeight*0.6, window.innerHeight*0.6,document.body.clientHeight)
+        gn={}
+        gn.ww = Math.min(document.documentElement.clientWidth-20, window.innerWidth-20,document.body.clientWidth)
+        gn.hh = Math.min(document.documentElement.clientHeight*0.6, window.innerHeight*0.6,document.body.clientHeight)
+        w=gn.ww
+        h=gn.hh
     
     Ext.create('Ext.Carousel', {
                 fullscreen: true,
@@ -80,7 +85,7 @@
                         html : '<div id="chart1_title"></div><canvas id="chart1"  width='+w+' height="'+h+'"></canvas><div id="chart1_legend"></div>',
                         style: 'background-color: #E5E5D3',
                         listeners:{
-                            //painted:function(){create_chart('chart1','Goal')}
+                            painted:function(){create_chart('chart1','Goal')}
                         },
                         
                     },
@@ -88,7 +93,7 @@
                         html : '<div id="chart2_title"></div><canvas id="chart2"  width='+w+' height="'+h+'"></canvas><div id="chart2_legend"></div>',
                         style: 'background-color: #E5E5D3',
                         listeners:{
-                            //painted:function(){create_chart('chart2','Shot')}
+                            painted:function(){create_chart('chart2','Shot')}
                         },
                         
                     },
