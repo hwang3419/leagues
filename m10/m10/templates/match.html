@@ -45,19 +45,21 @@
         url: query_url,
         params:{
             limit:100,
-            order_by:'-Date',
+            //order_by:'-Date',
         },
         success: function(response){
             var responseObj = Ext.decode(response.responseText);
+
             newStore = {
             fields: ['Date','FTHG','FTAG','HomeTeam','AwayTeam'],
+            groupDir :'DESC',
             data: responseObj['objects'],
             grouper: {
                    groupFn: function(record) {
-                       return record.get('HomeTeam')+' vs ' +record.get('AwayTeam')
+                       return record.get('HomeTeam')+" vs "+record.get('AwayTeam')+ '  ' +record.get('Date')
                    }
                 },
-            },
+            }
             match_list.setStore(newStore)
             top_bar.setTitle('')
             top_bar.add([{
@@ -81,7 +83,6 @@
                                     window.location = '/trend/'+league+'/?'+new_url}
                                 }
                 }])
-            top_bar.add()
         },
         failure: function(response) {
         top_bar.setTitle('Failed, Please Reload')

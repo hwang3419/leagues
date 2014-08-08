@@ -185,32 +185,29 @@
                 },
             }
             for(i=0;i<rd.length;i++){
-                chart_data['Goal']['Home'].push(rd[i]['FTHG'])
-                chart_data['Goal']['Away'].push(rd[i]['FTAG'])
+                chart_data['Goal']['Home'].push(rd[i]['FTHG']?rd[i]['FTHG']:0)
+                chart_data['Goal']['Away'].push(rd[i]['FTAG']?rd[i]['FTAG']:0)
 
-                chart_data['Shot']['Home'].push(rd[i]['HS'])
-                chart_data['Shot']['Away'].push(rd[i]['AS'])
+                chart_data['Shot']['Home'].push(rd[i]['HS']?rd[i]['HS']:0)
+                chart_data['Shot']['Away'].push(rd[i]['AS']?rd[i]['AS']:0)
 
-                chart_data['Shot']['Home'].push(rd[i]['HS'])
-                chart_data['Shot']['Away'].push(rd[i]['AS'])
+                chart_data['Foul']['Home'].push(rd[i]['HF']?rd[i]['HF']:0)
+                chart_data['Foul']['Away'].push(rd[i]['AF']?rd[i]['AF']:0)
 
-                chart_data['Foul']['Home'].push(rd[i]['HF'])
-                chart_data['Foul']['Away'].push(rd[i]['AF'])
+                chart_data['Yellow']['Home'].push(rd[i]['HY']?rd[i]['HY']:0)
+                chart_data['Yellow']['Away'].push(rd[i]['AY']?rd[i]['AY']:0)
 
-                chart_data['Yellow']['Home'].push(rd[i]['HY'])
-                chart_data['Yellow']['Away'].push(rd[i]['AY'])
+                chart_data['Red']['Home'].push(rd[i]['HR']?rd[i]['HR']:0)
+                chart_data['Red']['Away'].push(rd[i]['AR']?rd[i]['AR']:0)
 
-                chart_data['Red']['Home'].push(rd[i]['HR'])
-                chart_data['Red']['Away'].push(rd[i]['AR'])
+                chart_data['Shot on target']['Home'].push(rd[i]['HST']?rd[i]['HST']:0)
+                chart_data['Shot on target']['Away'].push(rd[i]['AST']?rd[i]['AST']:0)
 
-                chart_data['Shot on target']['Home'].push(rd[i]['HST'])
-                chart_data['Shot on target']['Away'].push(rd[i]['AST'])
+                chart_data['Corner']['Home'].push(rd[i]['HC']?rd[i]['HC']:0)
+                chart_data['Corner']['Away'].push(rd[i]['AC']?rd[i]['AC']:0)
 
-                chart_data['Corner']['Home'].push(rd[i]['HTHG'])
-                chart_data['Corner']['Away'].push(rd[i]['HTAG'])
-
-                chart_data['Half time']['Home'].push(rd[i]['HTHG'])
-                chart_data['Half time']['Away'].push(rd[i]['HTAG'])
+                chart_data['Half time']['Home'].push(rd[i]['HTHG']?rd[i]['HTHG']:0)
+                chart_data['Half time']['Away'].push(rd[i]['HTAG']?rd[i]['HTAG']:0)
 
                 chart_data['Date'].push(rd[i]['Date'])
             } 

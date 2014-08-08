@@ -1,7 +1,7 @@
 from django.db import models
 from tastypie.utils.timezone import now
 from django.contrib.auth.models import User
-
+from tastypie.cache import SimpleCache
 
 class Test(models.Model):
     user = models.ForeignKey(User)

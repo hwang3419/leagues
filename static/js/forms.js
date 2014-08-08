@@ -8,12 +8,10 @@ var check_load = function (thisbutton, e, eOpts){
 
 var submit_form = function(thisbutton, e, eOpts){
     var form_value = {}
-    form_value['HomeTeam'] = {value: Ext.getCmp('homeselectfield').getValue()}
-    form_value['AwayTeam'] = {value: Ext.getCmp('awayselectfield').getValue()}
-    var query_string=''
-    for (var key in form_value){
-        query_string = query_string+"&"+key+"="+form_value[key]['value']
-    }
+    form_value['HomeTeam'] = Ext.getCmp('homeselectfield').getValue()
+    form_value['AwayTeam'] = Ext.getCmp('awayselectfield').getValue()
+    form_value['order_by'] = '-Date'
+    query_string = Ext.urlEncode(form_value)
     window.location = '/match/'+env.league+'/?'+query_string
 }
 

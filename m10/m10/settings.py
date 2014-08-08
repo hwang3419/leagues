@@ -97,6 +97,12 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'y0%h759!u)+s)$uhxq1pv5=mz&zbn2il)g1w=8_bq#k_=)yk2)'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    }
+}
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -139,10 +145,10 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
-DEBUG = True
+DEBUG = False
 
 try:
-    from local_settings import DATABASES
+    from local_settings import *
 except:
     pass
 # A sample logging configuration. The only tangible logging
@@ -173,4 +179,4 @@ LOGGING = {
         },
     }
 }
-TEMPLATE_DEBUG = DEBUG
+#TEMPLATE_DEBUG = DEBUG

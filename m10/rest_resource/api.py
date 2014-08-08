@@ -5,7 +5,7 @@ import json
 from django.core.serializers.json import DjangoJSONEncoder
 from tastypie.serializers import Serializer
 from tastypie.throttle import BaseThrottle
-
+from tastypie.cache import SimpleCache
 fillter = {
             'HomeTeam' : ALL_WITH_RELATIONS, 
             'AwayTeam' : ALL_WITH_RELATIONS,
@@ -50,6 +50,7 @@ class baseMeta:
     filtering = fillter
     serializer = PrettyJSONSerializer()
     throttle = BaseThrottle(throttle_at=500)
+    cache = SimpleCache(timeout=10000)
 
 class SP1Resource(ModelResource):
     class Meta(baseMeta):

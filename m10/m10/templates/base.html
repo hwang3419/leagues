@@ -32,7 +32,9 @@
         datas.forEach(function(d) {
             var title = document.createElement('span');
             title.className = 'title';
-            title.style.borderColor = d.hasOwnProperty('pointColor') ? d.pointColor : d.color;
+            if (d.hasOwnProperty('pointColor')){title.style.borderColor = d.pointColor }
+            else if (d.hasOwnProperty('fillColor')){title.style.borderColor = d.fillColor }
+            else if (d.hasOwnProperty('color')){title.style.borderColor = d.color }
             title.style.fontWeight= 900;
             title.style.borderStyle = 'solid';
             title.style.borderWidth = '5px';
