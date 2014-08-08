@@ -23,7 +23,7 @@
     store: {
         fields: ['Date','FTHG','FTAG'],
         },
-
+    grouped:true,
     itemTpl: '{FTHG}:{FTAG}  @  {Date}  ',
     items : [
     top_bar, 
@@ -50,8 +50,13 @@
         success: function(response){
             var responseObj = Ext.decode(response.responseText);
             newStore = {
-            fields: ['Date','FTHG','FTAG'],
-            data: responseObj['objects']
+            fields: ['Date','FTHG','FTAG','HomeTeam','AwayTeam'],
+            data: responseObj['objects'],
+            grouper: {
+                   groupFn: function(record) {
+                       return record.get('HomeTeam')+' vs ' +record.get('AwayTeam')
+                   }
+                },
             },
             match_list.setStore(newStore)
             top_bar.setTitle('')
