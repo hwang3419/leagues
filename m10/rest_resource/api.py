@@ -46,7 +46,7 @@ class baseMeta:
     authorization= Authorization()
     excludes = []
     allowed_methods = ['get']
-    ordering = ['Date']
+    ordering = ['Date','FTR','AR','HR','HST','AST','HS','AS','HY','AY','HC','AC','B365H','B365D','B365A']
     filtering = fillter
     serializer = PrettyJSONSerializer()
     throttle = BaseThrottle(throttle_at=500)
